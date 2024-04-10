@@ -39,3 +39,50 @@ const arrayCuentas = [
 ];
 
 // Desarrollo
+
+function filtroNroCuenta(nroCuenta, cuentas){
+  console.log('FILTRO POR NUMERO DE CUENTA');
+  return cuentas.filter(cuenta => cuenta.nroCuenta === nroCuenta);
+}
+
+function filtroTitularCuenta(titular, cuentas){
+  console.log('FILTRO POR TITULAR DE CUENTA');
+  return cuentas.filter(cuenta => cuenta.titularCuenta.includes(titular));
+}
+
+function filtroTipoCuenta(tipo, cuentas){
+  console.log('FILTRO POR TIPO DE CUENTA');
+  return cuentas.filter(cuenta => cuenta.tipoDeCuenta == tipo);
+}
+
+function debito(cuentas, nroCuenta, monto, titular, tipo){
+  if (!monto || !nroCuenta || !titular || !tipo) {
+    console.log("Faltan datos de la cuenta");
+    return false;
+  }
+  const cuenta = filtroTitularCuenta(titular, filtroTipoCuenta(tipo, filtroNroCuenta(nroCuenta, cuentas)));
+  if(cuenta.length == 0){
+    console.log("No se encuentra la cuenta especificada");
+    return false;
+  } else if(cuenta.length > 1){
+    console.log("Ocurrio un error con la cuenta, contacte a soporte");
+    return false;
+  }
+  cuenta[0].saldoEnPesos -= monto;
+}
+
+// PRUEBAS
+console.log("#############################################################");
+console.log(filtroNroCuenta(5486273622, arrayCuentas));
+console.log("#############################################################");
+console.log(filtroTipoCuenta("Cuenta Corriente", arrayCuentas));
+console.log("#############################################################");
+console.log(filtroTitularCuenta("Abigael Natte", arrayCuentas));
+console.log("#############################################################");
+console.log(arrayCuentas);
+debito(arrayCuentas, 5486273622, 37771, "Abigael Natte", "Cuenta Corriente");
+console.log("#############################################################");
+console.log(arrayCuentas);
+debito(arrayCuentas, 5486273622, 37771, "Abigael Natte");
+console.log("#############################################################");
+console.log(arrayCuentas);
