@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\UserController;
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -29,5 +30,9 @@ Route::middleware('auth')->group(function () {
 Route::resource('productos', ProductoController::class)
 ->only(['index', 'store', 'update', 'destroy']) //readAll, create, update, delete
 ->middleware(['auth', 'verified']);
+
+Route::resource('usuarios', UserController::class)
+    ->only(['index'])
+    ->middleware(['auth', 'verified']);
 
 require __DIR__.'/auth.php';
